@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Feliz Cumple Anderson 🎉</title>
+
+<!-- Librerías -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  color: white;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  text-align: center;
+}
+
+/* Fondo luces */
+body::before {
+  content: "";
+  position: fixed;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,0,150,0.15), transparent);
+  animation: luces 8s linear infinite;
+  z-index: -1;
+}
+
+@keyframes luces {
+  100% { transform: rotate(360deg); }
+}
+
+/* Pantalla inicio */
+.pantalla-inicio {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 10;
+}
+
+/* Contenido */
+.contenido {
+  display: none;
+  max-width: 800px;
+  width: 90%;
+}
+
+/* Tarjeta */
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+}
+
+/* Título glitch */
+.glitch {
+  position: relative;
+  font-size: 2.5em;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+}
+
+.glitch::before {
+  color: #ff00c1;
+  animation: glitchTop 1s infinite;
+}
+
+.glitch::after {
+  color: #00fff9;
+  animation: glitchBottom 1.5s infinite;
+}
+
+@keyframes glitchTop {
+  50% { transform: translate(-2px, -2px); }
+}
+
+@keyframes glitchBottom {
+  50% { transform: translate(2px, 2px); }
+}
+
+/* Texto */
+p {
+  font-size: 1.2em;
+  margin: 5px 0;
+}
+
+/* Cake */
+.cake {
+  font-size: 80px;
+  margin: 15px 0;
+  animation: float 2s infinite;
+}
+
+@keyframes float {
+  50% { transform: translateY(-10px); }
+}
+
+/* Galería SIN fondo negro */
+.galeria {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px; /* 👈 menos espacio */
+  margin: 20px 0;
+}
+
+.galeria img {
+  width: 120px;
+  height: 120px;
+  border-radius: 12px;
+  object-fit: cover;
+  object-position: center;
+  transition: 0.3s;
+}
+
+.galeria img:hover {
+  transform: scale(1.05);
+}
+
+@keyframes floatImg {
+  50% { transform: translateY(-10px); }
+}
+
+/* Botón */
+.boton {
+  padding: 12px 25px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #ff4081, #ff80ab);
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-top: 20px;
+}
+
+.boton:hover {
+  transform: scale(1.08);
+}
+
+/* Mensaje final */
+.sorpresa {
+  display: none;
+  margin-top: 20px;
+  font-size: 1.3em;
+}
+
+/* Partículas */
+#particles {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+}
+</style>
+</head>
+
+<body>
+
+<div id="particles"></div>
+
+<!-- Pantalla inicio -->
+<div class="pantalla-inicio">
+  <h2>🎁 Tienes una sorpresa</h2>
+  <button class="boton" onclick="iniciar()">Abrir</button>
+</div>
+
+<!-- Contenido -->
+<div class="contenido">
+  <div class="card">
+
+    <h1 class="glitch" data-text="🎉 Feliz Cumpleaños Anderson 🎉">
+      🎉 Feliz Cumpleaños Anderson 🎉
+    </h1>
+
+    <p><strong>Hoy celebramos tus 34 años 🥳</strong></p>
+    <p>Gracias por tu liderazgo y buena vibra 🙌</p>
+
+    <div class="cake">🎂</div>
+
+    <div class="galeria">
+      <img src="a.jpg">
+      <img src="a.jpg">
+      <img src="a.jpg">
+    </div>
+
+    <button class="boton" onclick="mostrarSorpresa()">🎊 Ver mensaje especial</button>
+
+    <div class="sorpresa" id="mensaje">
+        🎉 Anderson, hoy celebramos no solo tu cumpleaños, sino también tu liderazgo y dedicación 🙌 <br>
+        Gracias por inspirarnos cada día a dar lo mejor 💼 <br>
+        ¡Que este nuevo año venga lleno de éxitos y grandes logros! 🚀
+      </div>
+
+    <audio id="musica" loop>
+      <source src="🎉 CUMPLEAÑOS FELIZ  🎉 2025 🎈 Feliz cumpleaños 🥳 En español 🥳Original - Proyecto Feliz Cumpleaños.mp3">
+    </audio>
+
+  </div>
+</div>
+
+<script>
+function iniciar() {
+  document.querySelector('.pantalla-inicio').style.display = 'none';
+  document.querySelector('.contenido').style.display = 'block';
+  document.getElementById('musica').play();
+  lanzarConfeti();
+}
+
+function mostrarSorpresa() {
+  document.getElementById('mensaje').style.display = 'block';
+  lanzarConfeti();
+}
+
+function lanzarConfeti() {
+  confetti({
+    particleCount: 150,
+    spread: 100,
+    origin: { y: 0.6 }
+  });
+}
+
+/* Confeti con mouse */
+document.addEventListener("mousemove", function(e) {
+  confetti({
+    particleCount: 2,
+    spread: 60,
+    origin: {
+      x: e.clientX / window.innerWidth,
+      y: e.clientY / window.innerHeight
+    }
+  });
+});
+
+/* Partículas */
+tsParticles.load("particles", {
+  fullScreen: { enable: false },
+  particles: {
+    number: { value: 70 },
+    color: { value: ["#ff4081", "#ffffff", "#ffd700"] },
+    move: { enable: true, speed: 2 }
+  }
+});
+</script>
+
+</body>
+</html>
